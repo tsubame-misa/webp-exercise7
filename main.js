@@ -1,9 +1,5 @@
-// define variable for ball count paragraph
-
 const para = document.querySelector("p");
 let count = 0;
-
-// setup canvas
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -11,14 +7,10 @@ const ctx = canvas.getContext("2d");
 const width = (canvas.width = window.innerWidth);
 const height = (canvas.height = window.innerHeight);
 
-// function to generate random number
-
 function random(min, max) {
   const num = Math.floor(Math.random() * (max - min)) + min;
   return num;
 }
-
-// define shape constructor
 
 function Shape(x, y, velX, velY, exists) {
   this.x = x;
@@ -27,8 +19,6 @@ function Shape(x, y, velX, velY, exists) {
   this.velY = velY;
   this.exists = exists;
 }
-
-// define Ball constructor, inheriting from Shape
 
 function Ball(x, y, velX, velY, exists, color, size) {
   Shape.call(this, x, y, velX, velY, exists);
@@ -40,16 +30,12 @@ function Ball(x, y, velX, velY, exists, color, size) {
 Ball.prototype = Object.create(Shape.prototype);
 Ball.prototype.constructor = Ball;
 
-// define ball draw method
-
 Ball.prototype.draw = function () {
   ctx.beginPath();
   ctx.fillStyle = this.color;
   ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
   ctx.fill();
 };
-
-// define ball update method
 
 Ball.prototype.update = function () {
   if (this.x + this.size >= width) {
@@ -72,8 +58,6 @@ Ball.prototype.update = function () {
   this.y += this.velY;
 };
 
-// define ball collision detection
-
 Ball.prototype.collisionDetect = function () {
   for (var j = 0; j < balls.length; j++) {
     if (!(this === balls[j])) {
@@ -95,8 +79,6 @@ Ball.prototype.collisionDetect = function () {
   }
 };
 
-// define EvilCircle constructor, inheriting from Shape
-
 function EvilCircle(x, y, exists) {
   Shape.call(this, x, y, 20, 20, exists);
 
@@ -107,8 +89,6 @@ function EvilCircle(x, y, exists) {
 EvilCircle.prototype = Object.create(Shape.prototype);
 EvilCircle.prototype.constructor = EvilCircle;
 
-// define EvilCircle draw method
-
 EvilCircle.prototype.draw = function () {
   ctx.beginPath();
   ctx.strokeStyle = this.color;
@@ -116,8 +96,6 @@ EvilCircle.prototype.draw = function () {
   ctx.arc(this.x, this.y, this.size, 0, 2 * Math.PI);
   ctx.stroke();
 };
-
-// define EvilCircle checkBounds method
 
 EvilCircle.prototype.checkBounds = function () {
   if (this.x + this.size >= width) {
@@ -137,8 +115,6 @@ EvilCircle.prototype.checkBounds = function () {
   }
 };
 
-// define EvilCircle setControls method
-
 EvilCircle.prototype.setControls = function () {
   var _this = this;
   window.onkeydown = function (e) {
@@ -154,8 +130,6 @@ EvilCircle.prototype.setControls = function () {
   };
 };
 
-// define EvilCircle collision detection
-
 EvilCircle.prototype.collisionDetect = function () {
   for (let j = 0; j < balls.length; j++) {
     if (balls[j].exists) {
@@ -166,21 +140,17 @@ EvilCircle.prototype.collisionDetect = function () {
       if (distance < this.size + balls[j].size) {
         balls[j].exists = false;
         count--;
-        //para.textContent = "Ball count: " + count;
+        para.textContent = "Ball count: " + count;
       }
     }
   }
 };
-
-// define array to store balls and populate it
 
 const balls = [];
 
 while (balls.length < 25) {
   const size = random(10, 20);
   let ball = new Ball(
-    // ball position always drawn at least one ball width
-    // away from the adge of the canvas, to avoid drawing errors
     random(0 + size, width - size),
     random(0 + size, height - size),
     random(-7, 7),
@@ -191,10 +161,8 @@ while (balls.length < 25) {
   );
   balls.push(ball);
   count++;
-  // para.textContent = "Ball count: " + count;
+  para.textContent = "Ball count: " + count;
 }
-
-// define loop that keeps drawing the scene constantly
 
 let evil = new EvilCircle(random(0, width), random(0, height), true);
 evil.setControls();
