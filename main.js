@@ -166,7 +166,7 @@ EvilCircle.prototype.collisionDetect = function () {
       if (distance < this.size + balls[j].size) {
         balls[j].exists = false;
         count--;
-        para.textContent = "Ball count: " + count;
+        //para.textContent = "Ball count: " + count;
       }
     }
   }
@@ -191,7 +191,7 @@ while (balls.length < 25) {
   );
   balls.push(ball);
   count++;
-  para.textContent = "Ball count: " + count;
+  // para.textContent = "Ball count: " + count;
 }
 
 // define loop that keeps drawing the scene constantly
